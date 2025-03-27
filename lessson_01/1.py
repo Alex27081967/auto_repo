@@ -1,20 +1,26 @@
 my_heigh = 180
-print (my_heigh)
+print(my_heigh)
+
 
 my_name = "Алексей"
 my_name = "Алексей Чернышов"
-print (my_name)
+print(my_name)
+
 
 pet_name = input("Как зовут вашего питомца?")
-print ("Ваш любимчик -" + pet_name)
+print("Ваш любимчик -" + pet_name)
+
 
 def print_python():
-    print ("Учу Python!")
+    print("Учу Python!")
+
 
 print_python()
 
+
 def print_letter(let):
-    print(let, end='' )
+    print(let, end='')
+
 
 print_letter('С')
 print_letter('Т')
