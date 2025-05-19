@@ -11,9 +11,7 @@ def test_form_validation():
     chrome_options.add_argument("--disable-notifications")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-popup-blocking")
-    chrome_options.add_argument(
-        "--incognito"
-    )  # Режим инкогнито, чтобы обойти сохранённые данные
+    chrome_options.add_argument("--incognito")
     chrome_options.add_experimental_option(
         "excludeSwitches", ["enable-automation", "enable-logging"]
     )
@@ -48,7 +46,7 @@ def test_form_validation():
         # Добавление товаров в корзину
         driver.find_element(By.ID, "add-to-cart-sauce-labs-backpack").click()
         driver.find_element(By.ID, "add-to-cart-sauce-labs-bolt-t-shirt").click()
-        driver.execute_script("window.scrollTo(0, 500)")  # Прокрутка вниз
+        driver.execute_script("window.scrollTo(0, 500)")
         driver.find_element(By.ID, "add-to-cart-sauce-labs-onesie").click()
 
         # Проверка количества товаров в корзине
@@ -56,6 +54,26 @@ def test_form_validation():
             EC.presence_of_element_located((By.CLASS_NAME, "shopping_cart_badge"))
         )
         assert cart_badge.text == "3", "Ожидалось 3 товара в корзине"
+
+        # Переход в корзину и оформление заказа
+        driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
+        driver.find_element(By.ID, "checkout").click()
+
+        # Заполнение формы
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "first-name"))
+        ).send_keys("Иван")
+        driver.find_element(By.ID, "last-name").send_keys("Петров")
+        driver.find_element(By.ID, "postal-code").send_keys("123456")
+        driver.find_element(By.ID, "continue").click()
+
+        # Проверка итоговой суммы
+        total = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "summary_total_label"))
+        )
+        assert (
+                "Total: $58.29" in total.text
+        ), f"Ожидалась сумма $58.29, но получено {total.text}"
 
     finally:
         driver.quit()
