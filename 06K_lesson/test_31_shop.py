@@ -100,7 +100,7 @@ def test_complete_purchase_flow():
 
         # Проверяем, что в корзине 3 товара
         assert (
-                cart_badge.text == "3"
+            cart_badge.text == "3"
         ), f"Ожидалось 3 товара в корзине, а получили {cart_badge.text}"
 
         # 7. Переход к оформлению заказа =================================
@@ -130,7 +130,7 @@ def test_complete_purchase_flow():
         # 9. Проверка итоговой страницы =================================
         # Проверяем, что мы на странице подтверждения
         assert (
-                "checkout-step-two.html" in driver.current_url
+            "checkout-step-two.html" in driver.current_url
         ), "Не удалось перейти к подтверждению заказа"
 
         # Проверяем наличие всех добавленных товаров
@@ -147,7 +147,7 @@ def test_complete_purchase_flow():
         total_value = total_text.split()[-1]  # Получаем "$58.29"
 
         assert (
-                total_value == "$58.29"
+            total_value == "$58.29"
         ), f"Ожидалась сумма $58.29, а получили {total_value}"
 
         # 11. Завершение покупки =========================================
@@ -159,7 +159,7 @@ def test_complete_purchase_flow():
             EC.presence_of_element_located((By.CLASS_NAME, "complete-header"))
         )
         assert (
-                "Thank you for your order" in complete_header.text
+            "Thank you for your order" in complete_header.text
         ), "Заказ не был завершен успешно"
 
         print("\nТест успешно завершен! Все проверки пройдены.")
